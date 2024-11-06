@@ -1,0 +1,20 @@
+{
+  "data1": {
+    "n_samples": 6001,
+    "n_shots": 72,
+    "n_receivers": 321,
+    "blended": "/home/data/RESULTADO_BLENDED/",
+    "single": "/home/data/RESULTADO_SINGLE/",
+    "n_files": 10,
+    "outputs_path": "/home/src/outputs_model_XX_/"
+  },
+  "data2": {
+    "n_samples": 6001,
+    "n_shots": 72,
+    "n_receivers": 321,
+    "blended": "datasets/blended/",
+    "single": "datasets/single/",
+    "n_files": 2,
+    "outputs_path": "datasets/outputs_model_XX_/"
+  }
+}

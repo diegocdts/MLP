@@ -1,0 +1,14 @@
+{
+  "train1": {
+    "k_fold": 10,
+    "n_epochs": 50,
+    "batch_size": 64,
+    "lr": 0.005
+  },
+  "train2": {
+    "k_fold": 3,
+    "n_epochs": 5,
+    "batch_size": 64,
+    "lr": 0.005
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "mlp3a": {
+    "name": "MLP-3a",
+    "hidden_units": [7000, 8000, 9000],
+    "dropout_prob": 0.2
+  },
+  "mlp3b": {
+    "name": "MLP-3b",
+    "hidden_units": [5000, 4000, 3000],
+    "dropout_prob": 0.2
+  }
+}
