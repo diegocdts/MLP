@@ -13,11 +13,13 @@ from model.model import MLP
 class CrossValidation:
 
     def __init__(self, data_info, model_info, train_info):
+
         i_names, t_names = input_target_names(data_info["blended"], data_info["single"], 0, data_info["n_files"])
         i_data, t_data, self.i_mean, self.i_std = load_data(i_names, t_names, data_info["n_receivers"])
+
         self.dataset = TraceDataset(i_data, t_data)
-        self.model_io = i_data.shape[-1] #6001
-        print(i_data.shape)
+        self.model_io = i_data.shape[-1]  # number of samples per trace
+
         self.data_info = data_info
         self.model_info = model_info
         self.train_info = train_info
@@ -25,7 +27,7 @@ class CrossValidation:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.lowest_loss = float('inf')
-        self.outputs_path = data_info["outputs_path"].replace('_XX_', f'_{model_info["name"]}_')
+        self.outputs_path = data_info["outputs_path"].replace('_XX', f'_{model_info["name"]}')
         self.model_path = os.path.join(self.outputs_path, 'model_weights.pth')
 
         if not os.path.exists(self.outputs_path):
