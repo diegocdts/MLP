@@ -35,7 +35,7 @@ class CrossValidation:
 
     def train(self):
         k_fold = KFold(n_splits=self.train_info["k_fold"], shuffle=False)
-        print('Preparing to start cross validation')
+        print('Starting cross validation...')
         for fold, (idx_train, idx_val) in enumerate(k_fold.split(self.dataset)):
             t_subset = Subset(self.dataset, idx_train)
             v_subset = Subset(self.dataset, idx_val)
@@ -75,14 +75,14 @@ class CrossValidation:
                         loss = criterion(outputs, targets)
                         val_loss += loss.item()
                     val_epoch_loss = val_loss / len(v_loader)
+                    if val_epoch_loss < self.lowest_loss:
+                        self.lowest_loss = val_epoch_loss
+                        torch.save(model.state_dict(), self.model_path)
 
                 self.log(fold, epoch, train_epoch_loss, val_epoch_loss)
                 train_losses.append(train_epoch_loss)
                 val_losses.append(val_epoch_loss)
 
-            if sum(val_losses) / len(val_losses) < self.lowest_loss:
-                self.lowest_loss = sum(val_losses) / len(val_losses)
-                torch.save(model.state_dict(), self.model_path)
             self.write_losses(train_losses, val_losses)
 
     def predict(self, input_path):
