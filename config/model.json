@@ -11,9 +11,14 @@
     "is_linear": false,
     "dropout_prob": 0.2
   },
-  "mlp2": {
-    "name": "MLP-2",
-    "hidden_units": [7000, 8000],
+  "mlp2a": {
+    "name": "MLP-2-[1000]",
+    "hidden_units": [1000],
+    "is_linear": true
+  },
+  "mlp2b": {
+    "name": "MLP-2-[500]",
+    "hidden_units": [500],
     "is_linear": true
   }
 }
