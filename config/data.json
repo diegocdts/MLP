@@ -16,5 +16,14 @@
     "single": "datasets/single/",
     "n_files": 2,
     "outputs_path": "datasets/outputs_model_XX_/"
+  },
+  "data3": {
+    "n_samples": 1500,
+    "n_shots": 1001,
+    "n_receivers": 120,
+    "blended": "datasets/b/",
+    "single": "datasets/d/",
+    "n_files": 2,
+    "outputs_path": "datasets/outputs_model_XX_/"
   }
 }

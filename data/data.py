@@ -28,7 +28,7 @@ def input_target_names(input_path, target_path, start, end):
     for input_file in input_files:
         suffix = input_file[input_file.index('inline'):-4]
         for target_file in all_target_files:
-            if target_file.endswith(suffix):
+            if suffix in target_file:
                 target_files.append(target_file)
                 break
     return input_files, target_files
@@ -50,14 +50,14 @@ def load_data(x_names, y_names, n_receivers):
 
 
 def load_file(file_path):
-    if 'segy' in file_path:
+    if 'segy' in file_path or 'sgy' in file_path:
         f1 = segyio.open(file_path, ignore_geometry=True)
         data = segyio.collect(f1.trace[:])
     else:
         data = np.load(file_path)
     if len(data.shape) == 3:
         data = data.reshape(data.shape[0]*data.shape[1], data.shape[2])
-    return data.real
+    return data.real.astype(np.float32)
 
 
 def normalize_slices(data, n_receivers):
@@ -98,6 +98,8 @@ def plot_compare(blended, deblended, predicted = None, comparison_path = None):
     plt.title('Deblended')
 
     if predicted is not None:
+        vmin = predicted.mean() - predicted.std()
+        vmax = predicted.mean() + predicted.std()
         plt.subplot(1, 3, 3)
         plt.imshow(predicted.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
         plt.title('Prediction')
