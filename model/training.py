@@ -44,6 +44,8 @@ class CrossValidation:
             model = MLP(io_units=self.model_io,
                         hidden_units=self.model_info["hidden_units"],
                         is_linear=self.model_info["is_linear"])
+            if fold == 0:
+                print(model)
             model.to(self.device)
             criterion = nn.MSELoss()
             optimizer = optim.Adam(model.parameters(), lr=self.train_info['lr'])
