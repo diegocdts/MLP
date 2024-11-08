@@ -104,15 +104,15 @@ def plot_compare(blended, deblended, predicted = None, comparison_path = None):
     plt.close()
 
 
-def compare(blended_path, deblended_path, predicted_path, predictions_output):
+def compare(blended_path, deblended_path, predicted_path, prediction_dir, n_receivers):
     blended = zscore(load_file(blended_path))
     deblended = zscore(load_file(deblended_path))
     predicted = load_file(f'{predicted_path}.npy')
     shape = blended.shape
     print(shape)
-    n_images = int(shape[0] / 321)
+    n_images = int(shape[0] / n_receivers)
     for i in range(n_images):
-        start = i * 321
-        end = start + 321
-        comparison_path = f'{predictions_output}/{predicted_path}_SHOT_{i}.png'
+        start = i * n_receivers
+        end = start + n_receivers
+        comparison_path = f'{prediction_dir}/SHOT_{i}.png'
         plot_compare(blended[start:end], deblended[start:end], predicted[start:end], comparison_path)

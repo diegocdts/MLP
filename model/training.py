@@ -26,14 +26,10 @@ class CrossValidation:
 
         self.lowest_loss = float('inf')
         self.outputs_path = data_info["outputs_path"].replace('_XX_', f'_{model_info["name"]}_')
-        self.predictions_path = os.path.join(self.outputs_path, 'predictions')
         self.model_path = os.path.join(self.outputs_path, 'model_weights.pth')
 
         if not os.path.exists(self.outputs_path):
             os.mkdir(self.outputs_path)
-
-        if not os.path.exists(self.predictions_path):
-            os.mkdir(self.predictions_path)
 
     def train(self):
         k_fold = KFold(n_splits=self.train_info["k_fold"], shuffle=False)
@@ -103,14 +99,19 @@ class CrossValidation:
                 predictions.append(prediction)
         predictions = np.array(predictions)
         predictions = predictions.reshape(predictions.shape[0] * predictions.shape[1], predictions.shape[2])
+
         suffix_target = input_path[-20:]
         suffix_prediction = input_path[-20:-4]
 
-        target_path = os.path.join(self.data_info["single"], f'SISMO_SINGLE{suffix_target}')
-        predictions_path = os.path.join(self.predictions_path, f'PREDICTION{suffix_prediction}')
-        np.save(predictions_path, predictions)
+        prediction_dir = os.path.join(self.outputs_path, f'PREDICTION{suffix_prediction}')
+        if not os.path.exists(prediction_dir):
+            os.mkdir(prediction_dir)
 
-        compare(input_path, target_path, predictions_path, self.predictions_path)
+        target_file_path = os.path.join(self.data_info["single"], f'SISMO_SINGLE{suffix_target}')
+        prediction_file_path = os.path.join(prediction_dir, f'PREDICTION{suffix_prediction}')
+        np.save(prediction_file_path, predictions)
+
+        compare(input_path, target_file_path, prediction_file_path, prediction_dir, self.data_info["n_receivers"])
 
 
     def log(self, fold, epoch, train_epoch_loss, val_epoch_loss):
