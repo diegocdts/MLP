@@ -1,13 +1,13 @@
 {
-  "train1": {
+  "default": {
     "k_fold": 10,
     "n_epochs": 50,
     "batch_size": 64,
     "lr": 0.01
   },
-  "train2": {
-    "k_fold": 10,
-    "n_epochs": 10,
+  "local": {
+    "k_fold": 2,
+    "n_epochs": 2,
     "batch_size": 64,
     "lr": 0.01
   }
