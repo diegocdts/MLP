@@ -43,7 +43,7 @@ class CrossValidation:
 
             model = MLP(io_units=self.model_io,
                         hidden_units=self.model_info["hidden_units"],
-                        is_nonlinear=self.model_info["is_nonlinear"])
+                        is_linear=self.model_info["is_linear"])
             model.to(self.device)
             criterion = nn.MSELoss()
             optimizer = optim.Adam(model.parameters(), lr=self.train_info['lr'])
@@ -88,7 +88,7 @@ class CrossValidation:
 
         model = MLP(io_units=self.model_io,
                     hidden_units=self.model_info["hidden_units"],
-                    is_nonlinear=self.model_info["is_nonlinear"])
+                    is_linear=self.model_info["is_linear"])
         model.to(self.device)
 
         model.load_state_dict(torch.load(self.model_path, weights_only=True))
