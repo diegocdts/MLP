@@ -26,7 +26,7 @@ def input_target_names(input_path, target_path, start, end):
     all_target_files = sorted(glob.glob(f'{target_path}*'))
     target_files = []
     for input_file in input_files:
-        suffix = input_file[input_file.index('inline'):]
+        suffix = input_file[input_file.index('inline'):-4]
         for target_file in all_target_files:
             if target_file.endswith(suffix):
                 target_files.append(target_file)
@@ -50,11 +50,13 @@ def load_data(x_names, y_names, n_receivers):
 
 
 def load_file(file_path):
-    if 'sgy' in file_path:
+    if 'segy' in file_path:
         f1 = segyio.open(file_path, ignore_geometry=True)
         data = segyio.collect(f1.trace[:])
     else:
         data = np.load(file_path)
+    if len(data.shape) == 3:
+        data = data.reshape(data.shape[0]*data.shape[1], data.shape[2])
     return data.real
 
 
