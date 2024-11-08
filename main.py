@@ -16,5 +16,6 @@ train_info = load(f'{pwd}/config/train.json', train)
 training_validation = CrossValidation(data_info, model_info, train_info)
 training_validation.train()
 
-data_path = data_info["blended"]
-training_validation.predict(f'{data_path}SISMO_BLENDED_inline_0500_NEW.sgy')
+blended = data_info["blended"]
+single = data_info["single"]
+training_validation.predict(f'{blended}SISMO_BLENDED_inline_0500_NEW.sgy', f'{single}SISMO_SINGLE_inline_0500_NEW.sgy')

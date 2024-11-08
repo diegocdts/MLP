@@ -1,4 +1,5 @@
 import os
+import Path
 
 import numpy as np
 import torch
@@ -85,7 +86,7 @@ class CrossValidation:
 
             self.write_losses(train_losses, val_losses)
 
-    def predict(self, input_path):
+    def predict(self, input_path, target_path):
         input_data = zscore(load_file(input_path), self.i_mean, self.i_std)
         test_dataset = TraceDataset(input_data)
         test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
@@ -108,18 +109,16 @@ class CrossValidation:
         predictions = np.array(predictions)
         predictions = predictions.reshape(predictions.shape[0] * predictions.shape[1], predictions.shape[2])
 
-        suffix_target = input_path[-20:]
-        suffix_prediction = input_path[-20:-4]
+        input_name = Path(input_path).stem
 
-        prediction_dir = os.path.join(self.outputs_path, f'PREDICTION{suffix_prediction}')
+        prediction_dir = str(os.path.join(self.outputs_path, input_name))
         if not os.path.exists(prediction_dir):
             os.mkdir(prediction_dir)
 
-        target_file_path = os.path.join(self.data_info["single"], f'SISMO_SINGLE{suffix_target}')
-        prediction_file_path = os.path.join(prediction_dir, f'PREDICTION{suffix_prediction}')
-        np.save(prediction_file_path, predictions)
+        prediction_path = os.path.join(prediction_dir, 'PREDICTION')
+        np.save(prediction_path, predictions)
 
-        compare(input_path, target_file_path, prediction_file_path, prediction_dir, self.data_info["n_receivers"])
+        compare(input_path, target_path, prediction_path, prediction_dir, self.data_info["n_receivers"])
 
 
     def log(self, fold, epoch, train_epoch_loss, val_epoch_loss):
