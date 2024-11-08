@@ -1,29 +1,35 @@
 {
-  "data1": {
+  "samples_6000": {
     "n_samples": 6001,
     "n_shots": 72,
     "n_receivers": 321,
     "blended": "/home/data/RESULTADO_BLENDED/",
     "single": "/home/data/RESULTADO_SINGLE/",
     "n_files": 10,
-    "outputs_path": "/home/src/outputs_model_XX_/"
+    "outputs_path": "/home/src/outputs_model_XX/",
+    "blended_test": "/home/data/RESULTADO_BLENDED/SISMO_BLENDED_inline_0600_NEW.sgy",
+    "single_test": "/home/data/RESULTADO_SINGLE/SISMO_SINGLE_inline_0600_NEW.sgy"
   },
-  "data2": {
-    "n_samples": 6001,
-    "n_shots": 72,
-    "n_receivers": 321,
-    "blended": "datasets/blended/",
-    "single": "datasets/single/",
-    "n_files": 2,
-    "outputs_path": "datasets/outputs_model_XX_/"
-  },
-  "data3": {
+  "samples_1500": {
     "n_samples": 1500,
     "n_shots": 1001,
     "n_receivers": 120,
-    "blended": "datasets/b/",
-    "single": "datasets/d/",
+    "blended": "/home/data/blended_1500/",
+    "single": "/home/data/single_1500/",
+    "n_files": 10,
+    "outputs_path": "/home/src/outputs_model_XX/",
+    "blended_test": "/home/data/blended_1500/blended.npy",
+    "single_test": "/home/data/single_1500/single.segy"
+  },
+  "local": {
+    "n_samples": 1500,
+    "n_shots": 1001,
+    "n_receivers": 120,
+    "blended": "datasets/blended_1500/",
+    "single": "datasets/single_1500/",
     "n_files": 2,
-    "outputs_path": "datasets/outputs_model_XX_/"
+    "outputs_path": "datasets/outputs_model_XX/",
+    "blended_test": "datasets/blended_1500/blended.npy",
+    "single_test": "datasets/single_1500/single.segy"
   }
 }
