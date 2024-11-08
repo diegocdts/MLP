@@ -41,7 +41,9 @@ class CrossValidation:
             t_loader = DataLoader(t_subset, batch_size=self.train_info["batch_size"], shuffle=True)
             v_loader = DataLoader(v_subset, batch_size=self.train_info["batch_size"], shuffle=False)
 
-            model = MLP(io_units=self.model_io, hidden_units=self.model_info["hidden_units"])
+            model = MLP(io_units=self.model_io,
+                        hidden_units=self.model_info["hidden_units"],
+                        is_nonlinear=self.model_info["is_nonlinear"])
             model.to(self.device)
             criterion = nn.MSELoss()
             optimizer = optim.Adam(model.parameters(), lr=self.train_info['lr'])
@@ -84,7 +86,9 @@ class CrossValidation:
         test_dataset = TraceDataset(input_data)
         test_loader = DataLoader(test_dataset, batch_size=1, shuffle=False)
 
-        model = MLP(io_units=self.model_io, hidden_units=self.model_info["hidden_units"])
+        model = MLP(io_units=self.model_io,
+                    hidden_units=self.model_info["hidden_units"],
+                    is_nonlinear=self.model_info["is_nonlinear"])
         model.to(self.device)
 
         model.load_state_dict(torch.load(self.model_path, weights_only=True))

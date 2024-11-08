@@ -2,15 +2,18 @@
   "mlp3a": {
     "name": "MLP-3a",
     "hidden_units": [7000, 8000, 9000],
+    "is_nonlinear": true,
     "dropout_prob": 0.2
   },
   "mlp3b": {
     "name": "MLP-3b",
     "hidden_units": [5000, 4000, 3000],
+    "is_nonlinear": true,
     "dropout_prob": 0.2
   },
   "mlp2": {
     "name": "MLP-2",
-    "hidden_units": [7000, 8000]
+    "hidden_units": [7000, 8000],
+    "is_nonlinear": false
   }
 }
