@@ -3,12 +3,12 @@
     "k_fold": 10,
     "n_epochs": 50,
     "batch_size": 64,
-    "lr": 0.005
+    "lr": 0.01
   },
   "train2": {
-    "k_fold": 3,
-    "n_epochs": 5,
+    "k_fold": 10,
+    "n_epochs": 10,
     "batch_size": 64,
-    "lr": 0.005
+    "lr": 0.01
   }
 }
