@@ -24,9 +24,13 @@ class TraceDataset(Dataset):
 def input_target_names(input_path, target_path, start, end):
     input_files = sorted(glob.glob(f'{input_path}*'))[start:end]
     all_target_files = sorted(glob.glob(f'{target_path}*'))
+    if len(input_files) == 1 and len(all_target_files) == 1:
+        return input_files, all_target_files
+
     target_files = []
     for input_file in input_files:
-        suffix = input_file[input_file.index('inline'):-4]
+        end = -5 if input_file.endswith('segy') else -4
+        suffix = input_file[input_file.index('inline'):end]
         for target_file in all_target_files:
             if suffix in target_file:
                 target_files.append(target_file)
