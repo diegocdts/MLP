@@ -28,12 +28,12 @@
     "n_samples": 2000,
     "n_shots": 116,
     "n_receivers": 231,
-    "blended": "/home/data/blended_1500/",
-    "single": "/home/data/single_1500/",
+    "blended": "/home/data/blended_04/",
+    "single": "/home/data/single_04/",
     "n_files": 10,
     "outputs_path": "/home/src/outputs_model_XX/",
-    "blended_test": "/home/data/blended_1500/blended.npy",
-    "single_test": "/home/data/single_1500/single.segy"
+    "blended_test": "/home/data/blended_04/Dataset_Sintetico_04_blended.sgy",
+    "single_test": "/home/data/single_04/Dataset_Sintetico_04_clean.sgy"
   },
   "local": {
     "name": "local",
