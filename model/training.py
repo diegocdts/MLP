@@ -84,7 +84,7 @@ class CrossValidation:
                 train_losses.append(train_epoch_loss)
                 val_losses.append(val_epoch_loss)
 
-            self.write_losses(train_losses, val_losses)
+            self.write_losses(train_losses, val_losses, fold)
 
     def predict(self, input_path, target_path):
         input_data = zscore(load_file(input_path), self.i_mean, self.i_std)
@@ -125,6 +125,6 @@ class CrossValidation:
         print(f'FOLD {fold+1}/{self.train_info["k_fold"]} - EPOCH {epoch+1}/{self.train_info["n_epochs"]} - '
               f'LOSS train {train_epoch_loss} valid {val_epoch_loss}')
 
-    def write_losses(self, train_losses, val_losses):
-        np.savetxt(os.path.join(self.outputs_path, 'train_losses.csv'), np.array(train_losses), fmt='%.5f')
-        np.savetxt(os.path.join(self.outputs_path, 'val_losses.csv'), np.array(val_losses), fmt='%.5f')
+    def write_losses(self, train_losses, val_losses, fold):
+        np.savetxt(os.path.join(self.outputs_path, f'fold_{fold}_train_losses.csv'), np.array(train_losses), fmt='%.5f')
+        np.savetxt(os.path.join(self.outputs_path, f'fold_{fold}_val_losses.csv'), np.array(val_losses), fmt='%.5f')
