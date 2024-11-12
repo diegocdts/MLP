@@ -28,7 +28,7 @@ class CrossValidation:
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.lowest_loss = float('inf')
-        self.outputs_path = data_info["outputs_path"].replace('_XX', f'_{model_info["name"]}')
+        self.outputs_path = data_info["outputs_path"].replace('_XX', f'_{model_info["name"]}_{data_info["name"]}')
         self.model_path = os.path.join(self.outputs_path, 'model_weights.pth')
 
         if not os.path.exists(self.outputs_path):
