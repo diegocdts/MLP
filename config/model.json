@@ -1,12 +1,12 @@
 {
   "mlp3a": {
-    "name": "MLP-3a",
+    "name": "MLP-3a-[1000]",
     "hidden_units": [1000, 1000],
     "is_linear": false,
     "dropout_prob": 0.2
   },
   "mlp3b": {
-    "name": "MLP-3b",
+    "name": "MLP-3b-[500]",
     "hidden_units": [500, 500],
     "is_linear": false,
     "dropout_prob": 0.2
