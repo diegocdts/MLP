@@ -6,7 +6,7 @@ def args():
 
     parser.add_argument('--model',
                         type=str,
-                        default='mlp_2a',
+                        default='mlp2a',
                         help='model to be used')
 
     parser.add_argument('--data',
