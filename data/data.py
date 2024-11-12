@@ -88,28 +88,31 @@ def plot_image(data):
     plt.show()
 
 
-def plot_compare(blended, deblended, predicted = None, comparison_path = None):
-    columns = 3 if predicted is not None else 2
+def plot_compare(blended, deblended, predicted=None, comparison_path=None):
+    columns = 4 if predicted is not None else 2
 
-    plt.subplot(1, columns, 1)
+    fig, axs = plt.subplots(1, columns, figsize=(12, 6), constrained_layout=True)
     vmin = blended.mean() - blended.std()
     vmax = blended.mean() + blended.std()
-    plt.imshow(blended.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
-    plt.title('Blended')
 
-    plt.subplot(1, columns, 2)
-    plt.imshow(deblended.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
-    plt.title('Deblended')
+    im1 = axs[0].imshow(blended.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
+    axs[0].set_title('Blended')
 
+    im2 = axs[1].imshow(deblended.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
+    axs[1].set_title('Deblended')
+
+    im3 = None
     if predicted is not None:
         vmin = predicted.mean() - predicted.std()
         vmax = predicted.mean() + predicted.std()
-        plt.subplot(1, 3, 3)
-        plt.imshow(predicted.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
-        plt.title('Prediction')
-    plt.colorbar()
-    plt.savefig(comparison_path)
-    plt.close()
+        im3 = axs[2].imshow(predicted.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
+        axs[2].set_title('Prediction')
+
+    cbar = fig.colorbar(im2 if predicted is None else im3, ax=axs, orientation='vertical', fraction=0.02, pad=0.04)
+
+    if comparison_path:
+        plt.savefig(comparison_path)
+    plt.close(fig)
 
 
 def compare(blended_path, deblended_path, predicted_path, prediction_dir, n_receivers):
@@ -118,9 +121,15 @@ def compare(blended_path, deblended_path, predicted_path, prediction_dir, n_rece
     predicted = load_file(f'{predicted_path}.npy')
     shape = blended.shape
     print(shape)
-    n_images = int(shape[0] / n_receivers)
-    for i in range(n_images):
+    n_shots = int(shape[0] / n_receivers)
+    for i in range(n_shots):
         start = i * n_receivers
         end = start + n_receivers
         comparison_path = f'{prediction_dir}/SHOT_{i}.png'
         plot_compare(blended[start:end], deblended[start:end], predicted[start:end], comparison_path)
+    blended2 = blended.reshape(n_shots, n_receivers, shape[1])
+    deblended2 = deblended.reshape(n_shots, n_receivers, shape[1])
+    predicted2 = predicted.reshape(n_shots, n_receivers, shape[1])
+    for i in range(n_receivers):
+        comparison_path = f'{prediction_dir}/RECEIVER_{i}.png'
+        plot_compare(blended2[:,i,:], deblended2[:,i,:], predicted2[:,i,:], comparison_path)
