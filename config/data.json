@@ -11,7 +11,7 @@
     "blended_test": "/home/data/RESULTADO_BLENDED/SISMO_BLENDED_inline_0600_NEW.sgy",
     "single_test": "/home/data/RESULTADO_SINGLE/SISMO_SINGLE_inline_0600_NEW.sgy"
   },
-  "samples_1500": {
+  "marmousi": {
     "name": "samples_1500",
     "n_samples": 1500,
     "n_shots": 1001,
@@ -35,7 +35,7 @@
     "blended_test": "/home/data/blended_04/Dataset_Sintetico_04_blended.sgy",
     "single_test": "/home/data/single_04/Dataset_Sintetico_04_clean.sgy"
   },
-  "local": {
+  "marmousi_local": {
     "name": "local",
     "n_samples": 1500,
     "n_shots": 1001,

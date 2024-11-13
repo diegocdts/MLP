@@ -11,7 +11,7 @@ def args():
 
     parser.add_argument('--data',
                         type=str,
-                        default='samples_1500',
+                        default='marmousi',
                         help='name of the dataset to be used')
 
     parser.add_argument('--train',
