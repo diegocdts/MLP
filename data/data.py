@@ -89,7 +89,7 @@ def plot_image(data):
 
 
 def plot_compare(blended, deblended, predicted=None, comparison_path=None):
-    columns = 4 if predicted is not None else 2
+    columns = 3 if predicted is not None else 2
 
     fig, axs = plt.subplots(1, columns, figsize=(12, 6), constrained_layout=True)
     vmin = blended.mean() - blended.std()
