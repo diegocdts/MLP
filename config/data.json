@@ -12,7 +12,7 @@
     "single_test": "/home/data/RESULTADO_SINGLE/SISMO_SINGLE_inline_0600_NEW.sgy"
   },
   "marmousi": {
-    "name": "samples_1500",
+    "name": "marmousi",
     "n_samples": 1500,
     "n_shots": 1001,
     "n_receivers": 120,
@@ -36,7 +36,7 @@
     "single_test": "/home/data/single_04/Dataset_Sintetico_04_clean.sgy"
   },
   "marmousi_local": {
-    "name": "local",
+    "name": "marmousi_local",
     "n_samples": 1500,
     "n_shots": 1001,
     "n_receivers": 120,
