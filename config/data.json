@@ -16,12 +16,12 @@
     "n_samples": 1500,
     "n_shots": 1001,
     "n_receivers": 120,
-    "blended": "/home/data/blended_1500/",
-    "single": "/home/data/single_1500/",
+    "blended": "/home/data/blended_marmousi/",
+    "single": "/home/data/single_marmousi/",
     "n_files": 10,
     "outputs_path": "/home/src/outputs_model_XX/",
-    "blended_test": "/home/data/blended_1500/blended.npy",
-    "single_test": "/home/data/single_1500/single.segy"
+    "blended_test": "/home/data/blended_marmousi/blended.npy",
+    "single_test": "/home/data/single_marmousi/single.segy"
   },
   "sinteticos_04": {
     "name": "sinteticos_04",
@@ -40,11 +40,23 @@
     "n_samples": 1500,
     "n_shots": 1001,
     "n_receivers": 120,
-    "blended": "datasets/blended_1500/",
-    "single": "datasets/single_1500/",
+    "blended": "datasets/blended_marmousi/",
+    "single": "datasets/single_marmousi/",
     "n_files": 2,
     "outputs_path": "datasets/outputs_model_XX/",
-    "blended_test": "datasets/blended_1500/blended.npy",
-    "single_test": "datasets/single_1500/single.segy"
+    "blended_test": "datasets/blended_marmousi/blended.npy",
+    "single_test": "datasets/single_marmousi/single.segy"
+  },
+  "sintetico_04_local": {
+    "name": "sintetico_04_local",
+    "n_samples": 2000,
+    "n_shots": 116,
+    "n_receivers": 231,
+    "blended": "datasets/blended_04/",
+    "single": "datasets/single_04/",
+    "n_files": 10,
+    "outputs_path": "datasets/outputs_model_XX/",
+    "blended_test": "datasets/blended_04/blended.npy",
+    "single_test": "datasets/single_04/single.segy"
   }
 }
