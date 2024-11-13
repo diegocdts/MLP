@@ -1,24 +1,26 @@
 {
   "mlp3a": {
-    "name": "MLP-3a-[1000]",
-    "hidden_units": [1000, 1000],
-    "is_linear": false,
-    "dropout_prob": 0.2
-  },
-  "mlp3b": {
-    "name": "MLP-3b-[500]",
+    "name": "MLP3-relu-[500]",
     "hidden_units": [500, 500],
     "is_linear": false,
     "dropout_prob": 0.2
   },
+    "mlp3b": {
+    "name": "MLP3-linear-[500]",
+    "hidden_units": [500, 500],
+    "is_linear": true,
+    "dropout_prob": 0.2
+  },
   "mlp2a": {
-    "name": "MLP-2-[1000]",
-    "hidden_units": [1000],
-    "is_linear": true
+    "name": "MLP2-relu-[500]",
+    "hidden_units": [500],
+    "is_linear": false,
+    "dropout_prob": 0.2
   },
   "mlp2b": {
-    "name": "MLP-2-[500]",
+    "name": "MLP2-linear-[500]",
     "hidden_units": [500],
-    "is_linear": true
+    "is_linear": true,
+    "dropout_prob": 0.2
   }
 }
