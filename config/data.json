@@ -48,7 +48,7 @@
     "single_test": "datasets/single_marmousi/single.segy"
   },
   "sintetico_04_local": {
-    "name": "sintetico_04_local",
+    "name": "sinteticos_04_local",
     "n_samples": 2000,
     "n_shots": 116,
     "n_receivers": 231,
@@ -56,7 +56,7 @@
     "single": "datasets/single_04/",
     "n_files": 10,
     "outputs_path": "datasets/outputs_model_XX/",
-    "blended_test": "datasets/blended_04/blended.npy",
-    "single_test": "datasets/single_04/single.segy"
+    "blended_test": "datasets/blended_04/Dataset_Sintetico_04_blended.sgy",
+    "single_test": "datasets/single_04/Dataset_Sintetico_04_clean.sgy"
   }
 }
