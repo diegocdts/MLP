@@ -4,6 +4,8 @@ import segyio
 from matplotlib import pyplot as plt
 from torch.utils.data import Dataset
 
+from metrics.scores import snr2, psnr
+
 
 class TraceDataset(Dataset):
 
@@ -89,7 +91,7 @@ def plot_image(data):
 
 
 def plot_compare(blended, deblended, predicted=None, comparison_path=None):
-    columns = 3 if predicted is not None else 2
+    columns = 4 if predicted is not None else 2
 
     fig, axs = plt.subplots(1, columns, figsize=(12, 6), constrained_layout=True)
     vmin = blended.mean() - blended.std()
@@ -101,14 +103,25 @@ def plot_compare(blended, deblended, predicted=None, comparison_path=None):
     im2 = axs[1].imshow(deblended.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
     axs[1].set_title('Deblended')
 
-    im3 = None
+    im4 = None
     if predicted is not None:
         vmin = predicted.mean() - predicted.std()
         vmax = predicted.mean() + predicted.std()
         im3 = axs[2].imshow(predicted.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
         axs[2].set_title('Prediction')
 
-    cbar = fig.colorbar(im2 if predicted is None else im3, ax=axs, orientation='vertical', fraction=0.02, pad=0.04)
+        _snr2 = snr2(blended, predicted, deblended)
+        _psnr = psnr(predicted, deblended, data_range=vmax-vmin)
+
+        axs[2].text(0.05, 0.05, f'SNR2: {round(float(_snr2), 4)}\nPSNR: {round(_psnr, 4)}', color='black', ha='left', va='bottom',
+                    transform=axs[2].transAxes, fontsize=10)
+
+
+        diff = predicted - deblended
+        im4 = axs[3].imshow(diff.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
+        axs[3].set_title('Difference')
+
+    cbar = fig.colorbar(im2 if predicted is None else im4, ax=axs, orientation='vertical', fraction=0.02, pad=0.04)
 
     if comparison_path:
         plt.savefig(comparison_path)
