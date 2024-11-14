@@ -128,3 +128,11 @@ class CrossValidation:
     def write_losses(self, train_losses, val_losses, fold):
         np.savetxt(os.path.join(self.outputs_path, f'fold_{fold}_train_losses.csv'), np.array(train_losses), fmt='%.5f')
         np.savetxt(os.path.join(self.outputs_path, f'fold_{fold}_val_losses.csv'), np.array(val_losses), fmt='%.5f')
+
+
+def plot_predictions(data_info, model_info, input_path, target_path):
+    input_name = Path(input_path).stem
+    outputs_path = data_info["outputs_path"].replace('_XX', f'_{model_info["name"]}_{data_info["name"]}')
+    prediction_dir = str(os.path.join(outputs_path, input_name))
+    prediction_path = os.path.join(prediction_dir, 'PREDICTION')
+    compare(input_path, target_path, prediction_path, prediction_dir, data_info["n_receivers"])
