@@ -47,7 +47,7 @@
     "blended_test": "datasets/blended_marmousi/blended.npy",
     "single_test": "datasets/single_marmousi/single.segy"
   },
-  "sintetico_04_local": {
+  "sinteticos_04_local": {
     "name": "sinteticos_04_local",
     "n_samples": 2000,
     "n_shots": 116,
