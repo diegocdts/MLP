@@ -1,4 +1,6 @@
 import glob
+import os.path
+
 import numpy as np
 import segyio
 from matplotlib import pyplot as plt
@@ -24,6 +26,9 @@ class TraceDataset(Dataset):
 
 
 def input_target_names(input_path, target_path, start, end):
+    if os.path.exists(input_path) and os.path.exists(target_path):
+        if os.path.isfile(input_path) and os.path.isfile(target_path):
+            return [input_path], [target_path]
     input_files = sorted(glob.glob(f'{input_path}*'))[start:end]
     all_target_files = sorted(glob.glob(f'{target_path}*'))
     if len(input_files) == 1 and len(all_target_files) == 1:
