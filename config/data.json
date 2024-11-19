@@ -17,10 +17,10 @@
     "n_shots": 650,
     "n_receivers": 320,
     "blended": "/home/data/teste_2/Sintetico_05_blended_csg.sgy",
-    "single": "/home/data/teste_2/Sintetico_05_clean_csg.sgy",
+    "single": "/home/data/teste_2/Sintetico_05_clean.sgy",
     "n_files": 10,
     "outputs_path": "/home/src/outputs_model_XX/",
     "blended_test": "/home/data/teste_2/Sintetico_05_blended_csg.sgy",
-    "single_test": "/home/data/teste_2/Sintetico_05_clean_csg.sgy"
+    "single_test": "/home/data/teste_2/Sintetico_05_clean.sgy"
   }
 }
