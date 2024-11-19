@@ -6,15 +6,15 @@
     "dropout_prob": 0.2
   },
   "mlp2b": {
-    "name": "MLP2-linear-[1500]",
-    "hidden_units": [1500],
+    "name": "MLP2-linear-[10000]",
+    "hidden_units": [10000],
     "is_linear": true,
     "dropout_prob": 0.2
   },
   "mlp2c": {
-    "name": "MLP2-linear-[2000]",
-    "hidden_units": [2000],
-    "is_linear": true,
+    "name": "MLP2-linear-[10000]",
+    "hidden_units": [10000],
+    "is_linear": false,
     "dropout_prob": 0.2
   }
 }
