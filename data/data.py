@@ -90,7 +90,7 @@ def plot_image(data):
     plt.show()
 
 
-def plot_compare(blended, deblended, predicted=None, comparison_path=None):
+def plot_compare(blended, deblended, predicted=None, _snr2=None, _psnr=None, comparison_path=None):
     columns = 4 if predicted is not None else 2
 
     fig, axs = plt.subplots(1, columns, figsize=(12, 6), constrained_layout=True)
@@ -110,12 +110,8 @@ def plot_compare(blended, deblended, predicted=None, comparison_path=None):
         im3 = axs[2].imshow(predicted.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
         axs[2].set_title('Prediction')
 
-        _snr2 = snr2(blended, predicted, deblended)
-        _psnr = psnr(predicted, deblended, data_range=vmax-vmin)
-
         axs[2].text(0.05, 0.05, f'SNR2: {round(float(_snr2), 4)}\nPSNR: {round(_psnr, 4)}', color='black', ha='left', va='bottom',
                     transform=axs[2].transAxes, fontsize=10)
-
 
         diff = predicted - deblended
         im4 = axs[3].imshow(diff.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
@@ -125,6 +121,8 @@ def plot_compare(blended, deblended, predicted=None, comparison_path=None):
 
     if comparison_path:
         plt.savefig(comparison_path)
+    else:
+        plt.show()
     plt.close(fig)
 
 
@@ -132,17 +130,56 @@ def compare(blended_path, deblended_path, predicted_path, prediction_dir, n_rece
     blended = zscore(load_file(blended_path))
     deblended = zscore(load_file(deblended_path))
     predicted = load_file(f'{predicted_path}.npy')
+
     shape = blended.shape
     print(shape)
+
+    _snr2_shots, _psnr_shots = [], []
+    _snr2_receivers, _psnr_receivers = [], []
+
     n_shots = int(shape[0] / n_receivers)
+
     for i in range(n_shots):
         start = i * n_receivers
         end = start + n_receivers
+
+        _snr2, _psnr = metrics(blended[start:end], deblended[start:end], predicted[start:end])
+        _snr2_shots.append(_snr2)
+        _psnr_shots.append(_psnr)
+
         comparison_path = f'{prediction_dir}/SHOT_{i}.png'
-        plot_compare(blended[start:end], deblended[start:end], predicted[start:end], comparison_path)
+        plot_compare(blended[start:end], deblended[start:end], predicted[start:end], _snr2, _psnr, comparison_path)
+
     blended2 = blended.reshape(n_shots, n_receivers, shape[1])
     deblended2 = deblended.reshape(n_shots, n_receivers, shape[1])
     predicted2 = predicted.reshape(n_shots, n_receivers, shape[1])
     for i in range(n_receivers):
+        _snr2, _psnr = metrics(blended2[:,i,:], deblended2[:,i,:], predicted2[:,i,:])
+        _snr2_receivers.append(_snr2)
+        _psnr_receivers.append(_psnr)
+
         comparison_path = f'{prediction_dir}/RECEIVER_{i}.png'
-        plot_compare(blended2[:,i,:], deblended2[:,i,:], predicted2[:,i,:], comparison_path)
+        plot_compare(blended2[:,i,:], deblended2[:,i,:], predicted2[:,i,:], _snr2, _psnr, comparison_path)
+
+    metrics_shots_path = f'{prediction_dir}/METRICS_SHOTS.csv'
+    metrics_receivers_path = f'{prediction_dir}/METRICS_RECEIVERS.csv'
+    write_metrics(_snr2_shots, _psnr_shots, metrics_shots_path)
+    write_metrics(_snr2_receivers, _psnr_receivers, metrics_receivers_path)
+
+
+def metrics(blended, deblended, predicted):
+    vmin = predicted.mean() - predicted.std()
+    vmax = predicted.mean() + predicted.std()
+    _snr2 = snr2(blended, predicted, deblended)
+    _psnr = psnr(predicted, deblended, data_range=vmax - vmin)
+    return _snr2, _psnr
+
+def write_metrics(_snr2, _psnr, path):
+    mean_snr2 = sum(_snr2)/len(_snr2)
+    mean_psnr = sum(_psnr)/len(_psnr)
+    with open(path, 'w') as file:
+        file.write(f'MEAN_SNR2: {mean_snr2}')
+        file.write(f'MEAN_PSNR: {mean_psnr}')
+        file.write('SNR2 PSNR\n')
+        for idx in range(len(_snr2)):
+            file.write(f'{_snr2[idx]} {_psnr[idx]}\n')
