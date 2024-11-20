@@ -28,5 +28,17 @@
     "hidden_units": [512,1024],
     "is_linear": true,
     "dropout_prob": 0.2
+  },
+    "mlp6": {
+    "name": "MLP-linear-[512-512-512]",
+    "hidden_units": [512,512,512],
+    "is_linear": true,
+    "dropout_prob": 0.2
+  },
+    "mlp7": {
+    "name": "MLP-linear-[256-256-256]",
+    "hidden_units": [256,256,256],
+    "is_linear": true,
+    "dropout_prob": 0.2
   }
 }
