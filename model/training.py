@@ -5,6 +5,7 @@ import numpy as np
 import torch
 from sklearn.model_selection import KFold
 from torch import nn, optim
+from torch.optim import lr_scheduler
 from torch.utils.data import Subset, DataLoader
 
 from data.data import input_target_names, load_data, TraceDataset, load_file, zscore, compare
@@ -52,6 +53,7 @@ class CrossValidation:
             model.to(self.device)
             criterion = nn.MSELoss()
             optimizer = optim.Adam(model.parameters(), lr=self.train_info['lr'])
+            scheduler = lr_scheduler.ExponentialLR(optimizer, gamma=self.train_info['decay_rate'])
 
             train_losses, val_losses = [], []
             for epoch in range(self.train_info["n_epochs"]):
@@ -66,6 +68,7 @@ class CrossValidation:
                     optimizer.step()
                     train_loss += loss.item()
                 train_epoch_loss = train_loss / len(t_loader)
+                scheduler.step()
 
                 model.eval()
                 val_loss = 0

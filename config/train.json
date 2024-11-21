@@ -3,12 +3,14 @@
     "k_fold": 10,
     "n_epochs": 50,
     "batch_size": 64,
-    "lr": 0.005
+    "lr": 0.005,
+    "dr": 0.96
   },
   "local": {
     "k_fold": 2,
     "n_epochs": 2,
     "batch_size": 64,
-    "lr": 0.005
+    "lr": 0.005,
+    "dr": 0.96
   }
 }
