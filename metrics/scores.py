@@ -1,6 +1,10 @@
 import numpy as np
 from skimage import metrics
+from sklearn.metrics import mean_squared_error
 
+
+def mse(output, target):
+    return mean_squared_error(target, output)
 
 def snr2(_input, output, target):
 

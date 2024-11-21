@@ -6,7 +6,7 @@ import segyio
 from matplotlib import pyplot as plt
 from torch.utils.data import Dataset
 
-from metrics.scores import snr2, psnr
+from metrics.scores import snr2, psnr, mse
 
 
 class TraceDataset(Dataset):
@@ -139,8 +139,8 @@ def compare(blended_path, deblended_path, predicted_path, prediction_dir, n_rece
     shape = blended.shape
     print(shape)
 
-    _snr2_shots, _psnr_shots = [], []
-    _snr2_receivers, _psnr_receivers = [], []
+    _mse_shots, _snr2_shots, _psnr_shots = [], [], []
+    _mse_receivers, _snr2_receivers, _psnr_receivers = [], [], []
 
     n_shots = int(shape[0] / n_receivers)
 
@@ -148,9 +148,10 @@ def compare(blended_path, deblended_path, predicted_path, prediction_dir, n_rece
         start = i * n_receivers
         end = start + n_receivers
 
-        _snr2, _psnr = metrics(blended[start:end], deblended[start:end], predicted[start:end])
+        _mse, _snr2, _psnr = metrics(blended[start:end], deblended[start:end], predicted[start:end])
         _snr2_shots.append(_snr2)
         _psnr_shots.append(_psnr)
+        _mse_shots.append(_mse)
 
         comparison_path = f'{prediction_dir}/SHOT_{i}.png'
         plot_compare(blended[start:end], deblended[start:end], predicted[start:end], _snr2, _psnr, comparison_path)
@@ -159,32 +160,45 @@ def compare(blended_path, deblended_path, predicted_path, prediction_dir, n_rece
     deblended2 = deblended.reshape(n_shots, n_receivers, shape[1])
     predicted2 = predicted.reshape(n_shots, n_receivers, shape[1])
     for i in range(n_receivers):
-        _snr2, _psnr = metrics(blended2[:,i,:], deblended2[:,i,:], predicted2[:,i,:])
+        _mse, _snr2, _psnr = metrics(blended2[:,i,:], deblended2[:,i,:], predicted2[:,i,:])
         _snr2_receivers.append(_snr2)
         _psnr_receivers.append(_psnr)
+        _mse_receivers.append(_mse)
 
         comparison_path = f'{prediction_dir}/RECEIVER_{i}.png'
         plot_compare(blended2[:,i,:], deblended2[:,i,:], predicted2[:,i,:], _snr2, _psnr, comparison_path)
 
     metrics_shots_path = f'{prediction_dir}/METRICS_SHOTS.csv'
     metrics_receivers_path = f'{prediction_dir}/METRICS_RECEIVERS.csv'
-    write_metrics(_snr2_shots, _psnr_shots, metrics_shots_path)
-    write_metrics(_snr2_receivers, _psnr_receivers, metrics_receivers_path)
+    write_metrics(_mse_shots, _snr2_shots, _psnr_shots, metrics_shots_path)
+    write_metrics(_mse_receivers, _snr2_receivers, _psnr_receivers, metrics_receivers_path)
 
 
 def metrics(blended, deblended, predicted):
     vmin = predicted.mean() - predicted.std()
     vmax = predicted.mean() + predicted.std()
+    _mse = mse(predicted, deblended)
     _snr2 = snr2(blended, predicted, deblended)
     _psnr = psnr(predicted, deblended, data_range=vmax - vmin)
-    return _snr2, _psnr
+    return _mse, _snr2, _psnr
 
-def write_metrics(_snr2, _psnr, path):
-    mean_snr2 = sum(_snr2)/len(_snr2)
-    mean_psnr = sum(_psnr)/len(_psnr)
+def write_metrics(_mse, _snr2, _psnr, path):
+    _mse = np.array(_mse)
+    _snr2 = np.array(_snr2)
+    _psnr = np.array(_psnr)
+    mean_mse = _mse.mean()
+    mean_snr2 = _snr2.mean()
+    mean_psnr = _psnr.mean()
+    std_mse = _mse.std()
+    std_snr2 = _snr2.std()
+    std_psnr = _psnr.std()
     with open(path, 'w') as file:
-        file.write(f'MEAN_SNR2: {mean_snr2}')
-        file.write(f'MEAN_PSNR: {mean_psnr}')
+        file.write(f'MEAN_MSE: {mean_mse} ')
+        file.write(f'MEAN_SNR2: {mean_snr2} ')
+        file.write(f'MEAN_PSNR: {mean_psnr}\n')
+        file.write(f'STD_MSE: {std_mse} ')
+        file.write(f'STD_SNR2: {std_snr2} ')
+        file.write(f'STD_PSNR: {std_psnr}\n')
         file.write('SNR2 PSNR\n')
         for idx in range(len(_snr2)):
-            file.write(f'{_snr2[idx]} {_psnr[idx]}\n')
+            file.write(f'{_mse[idx]} {_snr2[idx]} {_psnr[idx]}\n')
