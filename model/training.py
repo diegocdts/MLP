@@ -53,7 +53,7 @@ class CrossValidation:
             model.to(self.device)
             criterion = nn.MSELoss()
             optimizer = optim.Adam(model.parameters(), lr=self.train_info['lr'])
-            scheduler = lr_scheduler.ExponentialLR(optimizer, gamma=self.train_info['decay_rate'])
+            scheduler = lr_scheduler.ExponentialLR(optimizer, gamma=self.train_info['dr'])
 
             train_losses, val_losses = [], []
             for epoch in range(self.train_info["n_epochs"]):
