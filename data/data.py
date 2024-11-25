@@ -95,7 +95,7 @@ def plot_image(data):
     plt.show()
 
 
-def plot_compare(blended, deblended, predicted=None, _snr2=None, _psnr=None, comparison_path=None):
+def plot_compare(blended, deblended, predicted=None, _mse=None, _snr2=None, _psnr=None, comparison_path=None):
     columns = 4 if predicted is not None else 2
 
     fig, axs = plt.subplots(1, columns, figsize=(12, 6), constrained_layout=True)
@@ -115,7 +115,7 @@ def plot_compare(blended, deblended, predicted=None, _snr2=None, _psnr=None, com
         im3 = axs[2].imshow(predicted.T, aspect='auto', cmap='seismic', origin='upper', vmin=vmin, vmax=vmax)
         axs[2].set_title('Prediction')
 
-        axs[2].text(0.05, 0.05, f'SNR2: {round(float(_snr2), 4)}\nPSNR: {round(_psnr, 4)}', color='black', ha='left', va='bottom',
+        axs[2].text(0.05, 0.05, f'MSE: {round(float(_mse), 4)}\nSNR2: {round(float(_snr2), 4)}\nPSNR: {round(_psnr, 4)}', color='black', ha='left', va='bottom',
                     transform=axs[2].transAxes, fontsize=10)
 
         diff = predicted - deblended
@@ -154,7 +154,7 @@ def compare(blended_path, deblended_path, predicted_path, prediction_dir, n_rece
         _mse_shots.append(_mse)
 
         comparison_path = f'{prediction_dir}/SHOT_{i}.png'
-        plot_compare(blended[start:end], deblended[start:end], predicted[start:end], _snr2, _psnr, comparison_path)
+        plot_compare(blended[start:end], deblended[start:end], predicted[start:end], _mse, _snr2, _psnr, comparison_path)
 
     blended2 = blended.reshape(n_shots, n_receivers, shape[1])
     deblended2 = deblended.reshape(n_shots, n_receivers, shape[1])
@@ -166,7 +166,7 @@ def compare(blended_path, deblended_path, predicted_path, prediction_dir, n_rece
         _mse_receivers.append(_mse)
 
         comparison_path = f'{prediction_dir}/RECEIVER_{i}.png'
-        plot_compare(blended2[:,i,:], deblended2[:,i,:], predicted2[:,i,:], _snr2, _psnr, comparison_path)
+        plot_compare(blended2[:,i,:], deblended2[:,i,:], predicted2[:,i,:], _mse, _snr2, _psnr, comparison_path)
 
     metrics_shots_path = f'{prediction_dir}/METRICS_SHOTS.csv'
     metrics_receivers_path = f'{prediction_dir}/METRICS_RECEIVERS.csv'
@@ -199,6 +199,6 @@ def write_metrics(_mse, _snr2, _psnr, path):
         file.write(f'STD_MSE: {std_mse} ')
         file.write(f'STD_SNR2: {std_snr2} ')
         file.write(f'STD_PSNR: {std_psnr}\n')
-        file.write('SNR2 PSNR\n')
+        file.write('MSE SNR2 PSNR\n')
         for idx in range(len(_snr2)):
             file.write(f'{_mse[idx]} {_snr2[idx]} {_psnr[idx]}\n')
