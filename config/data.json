@@ -12,7 +12,7 @@
     "single_test": "/home/data/teste_1/Marmousi_clean_crg.sgy"
   },
   "marmousi_fixo_crg": {
-    "name": "marmousi_crg",
+    "name": "marmousi_fixo_crg",
     "n_samples": 1500,
     "n_shots": 1001,
     "n_receivers": 120,
